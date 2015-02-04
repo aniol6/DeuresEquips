@@ -19,6 +19,7 @@ public class Informacio extends ActionBarActivity {
     private TextView infoequip;
     private Button infook;
     private Button infocancel;
+    private Informacio infoActivity;
 
 
 
@@ -32,9 +33,15 @@ public class Informacio extends ActionBarActivity {
         infoequip= (TextView) findViewById(R.id.equip);
         infook = (Button) findViewById(R.id.buttonok);
         infocancel = (Button) findViewById(R.id.buttoncancel);
+        infoActivity = this;
 
 
-        //FALTA CREAR BOTO OK
+
+        /*FALTA:
+        -assignar funció al botó ok
+        -revisar el de cancel
+        -modificar la info del main activity des de informació
+         */
         infonom.setText(getIntent().getExtras().getString("Nom"));
         infoval.setText(getIntent().getExtras().getString("Valoració"));
         infofoto.setImageBitmap((android.graphics.Bitmap) getIntent().getExtras().get("Foto"));
@@ -43,12 +50,14 @@ public class Informacio extends ActionBarActivity {
         infocancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                /*Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setAction("android.intent.action.MAIN");
                 intent.addCategory("android.intent.category.LAUNCHER");
-                startActivity(intent);
+                startActivity(intent);*/
+                infoActivity.finish();
                 //comentari
+
 
             }
         });

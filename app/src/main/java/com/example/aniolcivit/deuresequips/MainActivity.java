@@ -30,13 +30,20 @@ public class MainActivity extends ActionBarActivity {
     private ListView llvermell;
     private MyCustomAdapter adapterblau;
     private MyCustomAdapter adaptervermell;
-    private ArrayList<Jugador> jblaus = new ArrayList<>();
-    private ArrayList<Jugador> jvermells = new ArrayList<>();
+    private ArrayList<Jugador> jblaus;
+    private ArrayList<Jugador> jvermells;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        jblaus = new ArrayList<>();
+        jvermells = new ArrayList<>();
+    }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
         setContentView(R.layout.activity_main);
 
         blau = (Button) findViewById(R.id.blau);
