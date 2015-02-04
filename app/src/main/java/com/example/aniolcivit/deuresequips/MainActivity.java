@@ -75,6 +75,8 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
         jugadorDao = new JugadorDao();
 
         List<JugadorDao> llista = jugadorDao.queryForAll();
+
+        //errors
         for (JugadorDao rest : llista) {
             if (rest.getEquip() == "Blau") {
                 adapterblau.add(rest);
