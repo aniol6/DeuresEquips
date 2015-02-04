@@ -48,6 +48,7 @@ public class Informacio extends ActionBarActivity {
                 intent.setAction("android.intent.action.MAIN");
                 intent.addCategory("android.intent.category.LAUNCHER");
                 startActivity(intent);
+                //comentari
 
             }
         });
