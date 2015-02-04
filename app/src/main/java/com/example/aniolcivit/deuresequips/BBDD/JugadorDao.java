@@ -4,6 +4,7 @@ package com.example.aniolcivit.deuresequips.BBDD;
 
 import android.graphics.Bitmap;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -15,16 +16,19 @@ public class JugadorDao {
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField
-    private String valoracio;
+    private String equip;
     @DatabaseField
-    private Bitmap foto;
+    private String valoracio;
+    @DatabaseField(dataType = DataType.BYTE_ARRAY)
+    byte[] foto;
     @DatabaseField
     private Boolean personalitzada;
     @DatabaseField
     private String name;
 
 
-    JugadorDao(){}
+
+    public JugadorDao(){}
     public int getId(){
         return id;
 
@@ -41,6 +45,14 @@ public class JugadorDao {
         this.name = name;
     }
 
+    public String getEquip() {
+        return equip;
+    }
+
+    public void setEquip(String equip) {
+        this.equip = equip;
+    }
+
     public String getValoracio() {
         return valoracio;
     }
@@ -49,11 +61,11 @@ public class JugadorDao {
         this.valoracio = valoracio;
     }
 
-    public Bitmap getFoto() {
+    public byte[] getFoto() {
         return foto;
     }
 
-    public void setFoto(Bitmap foto) {
+    public void setFoto(byte[] foto) {
         this.foto = foto;
     }
 
@@ -65,9 +77,10 @@ public class JugadorDao {
         this.personalitzada = personalitzada;
     }
 
-    public JugadorDao(String name, String valoracio, Bitmap foto, Boolean personalitzada ) {
+    public JugadorDao(String name, String valoracio,String equip, byte[] foto, Boolean personalitzada ) {
         this.name = name;
         this.valoracio = valoracio;
+        this.equip=equip;
         this.foto = foto;
         this.personalitzada=personalitzada;
 

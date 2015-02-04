@@ -58,6 +58,13 @@ public class Informacio extends ActionBarActivity {
                 infoActivity.finish();
                 //comentari
 
+            }
+        });
+
+        infook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
 
             }
         });
