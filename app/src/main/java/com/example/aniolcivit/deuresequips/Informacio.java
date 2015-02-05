@@ -1,6 +1,7 @@
 package com.example.aniolcivit.deuresequips;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,9 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.aniolcivit.deuresequips.BBDD.JugadorDao;
+import com.example.aniolcivit.deuresequips.BBDD.JugadorHelper;
+import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
+import com.j256.ormlite.dao.Dao;
+
+import java.sql.SQLException;
 
 
-public class Informacio extends ActionBarActivity {
+public class Informacio extends OrmLiteBaseActivity<JugadorHelper> {
     private EditText infonom;
     private EditText infoval;
     private ImageView infofoto;
@@ -20,6 +29,7 @@ public class Informacio extends ActionBarActivity {
     private Button infook;
     private Button infocancel;
     private Informacio infoActivity;
+
 
 
 
@@ -55,6 +65,8 @@ public class Informacio extends ActionBarActivity {
                 intent.setAction("android.intent.action.MAIN");
                 intent.addCategory("android.intent.category.LAUNCHER");
                 startActivity(intent);*/
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
                 infoActivity.finish();
                 //comentari
 
@@ -64,6 +76,26 @@ public class Informacio extends ActionBarActivity {
         infook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (infonom.getText().toString().equals("") || infoval.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Falten dades", Toast.LENGTH_SHORT).show();
+                }else{
+
+                    JugadorDao jugadorDao = new JugadorDao(infonom.getText().toString(),infoval.getText().toString(),infoequip.getText().toString(),new byte[0],false);
+                    try {
+                        Dao<JugadorDao,Integer> dao = getHelper().getDao();
+                        dao.update(jugadorDao);
+
+                    }catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                    infoActivity.finish();
+
+
+
+                }
 
 
             }

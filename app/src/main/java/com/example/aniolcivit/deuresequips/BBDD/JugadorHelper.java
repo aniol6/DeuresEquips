@@ -12,7 +12,7 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 
 public class JugadorHelper extends OrmLiteSqliteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private Dao<JugadorDao, Integer> jugadorDao;
 
     public JugadorHelper(Context context) {
@@ -35,6 +35,8 @@ public class JugadorHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
             TableUtils.dropTable(connectionSource, JugadorDao.class, true);
+            TableUtils.createTable(connectionSource, JugadorDao.class);
+
 
         } catch (SQLException e) {
             throw new RuntimeException();

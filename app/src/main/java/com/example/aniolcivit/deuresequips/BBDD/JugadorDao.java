@@ -67,6 +67,7 @@ public class JugadorDao {
 
     public void setFoto(byte[] foto) {
         this.foto = foto;
+        this.personalitzada=true;
     }
 
     public Boolean getPersonalitzada() {

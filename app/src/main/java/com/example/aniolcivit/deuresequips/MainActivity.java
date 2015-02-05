@@ -1,17 +1,24 @@
 package com.example.aniolcivit.deuresequips;
 
+import android.app.ActionBar;
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.support.v7.app.ActionBarActivity;
 
 import com.example.aniolcivit.deuresequips.BBDD.JugadorDao;
 import com.example.aniolcivit.deuresequips.BBDD.JugadorHelper;
@@ -41,6 +48,13 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
     private ArrayList<Jugador> jblaus;
     private ArrayList<Jugador> jvermells;
     private JugadorDao jugadorDao;
+    private DrawerLayout drawerLayout;
+    private ListView lldrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private String[] leftMenuItems = new String[]{"Nous equips"};
+    private MainActivity infoactivity;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -64,6 +78,35 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
         llvermell = (ListView) findViewById(R.id.equipvermell);
         mEditTextV = (EditText) findViewById(R.id.editvalor);
         brandom = (Button) findViewById(R.id.random);
+        infoactivity = this;
+
+        drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                R.drawable.ic_drawer,
+                R.string.open,
+                R.string.close
+
+        ) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                invalidateOptionsMenu();
+            }
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+            }
+
+        };
 
 
 
@@ -71,18 +114,25 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
         llblau.setAdapter(adapterblau);
         adaptervermell = new MyCustomAdapter(getApplicationContext(),jvermells);
         llvermell.setAdapter(adaptervermell);
+        List<JugadorDao> llista = new ArrayList<>();
 
-        jugadorDao = new JugadorDao();
+        try {
+            Dao<JugadorDao,Integer> jugadorDaos = getHelper().getDao();
+            llista = jugadorDaos.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        List<JugadorDao> llista = jugadorDao.queryForAll();
-
+        Log.d("LLEGIM", "TAMANY: " + llista.size());
         //errors
         for (JugadorDao rest : llista) {
-            if (rest.getEquip() == "Blau") {
-                adapterblau.add(rest);
+            if (rest.getEquip().equals("Blau")) {
+                Jugador j = new Jugador(rest.getName(), rest.getValoracio());
+                adapterblau.add(j);
 
-            }else if (rest.getEquip() == "Vermell") {
-                adaptervermell.add(rest);
+            }else {
+                Jugador j = new Jugador(rest.getName(), rest.getValoracio());
+                adaptervermell.add(j);
             }
         }
 
@@ -194,6 +244,11 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
                 intent.putExtra("Personalitzada",jblaus.get(position).personalitzada);
                 intent.putExtra("Equip","Equip blau");
                 startActivity(intent);
+                infoactivity.finish();
+
+
+
+
                 return false;
             }
         });
@@ -208,11 +263,40 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
                 intent.putExtra("Personalitzada",jvermells.get(position).personalitzada);
                 intent.putExtra("Equip","Equip vermell");
                 startActivity(intent);
+                infoactivity.finish();
                 return false;
             }
         });
 
+        drawerLayout.setDrawerListener(mDrawerToggle);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeButtonEnabled(true);
 
+        lldrawer=(ListView) findViewById(R.id.left_drawer);
+        lldrawer.setAdapter(new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,leftMenuItems));
+        lldrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectItem(position);
+            }
+        });
+
+    }
+    private void selectItem(int position) {
+        switch (position){
+            case 0:
+                JugadorHelper jugadorHelper = new JugadorHelper(getApplicationContext());
+                jugadorHelper.clearData();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                infoactivity.finish();
+
+                break;
+            default:
+                break;
+
+
+        }
     }
 
 
@@ -237,4 +321,7 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
