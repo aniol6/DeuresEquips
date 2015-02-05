@@ -219,6 +219,7 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
                             try {
                                 Dao<JugadorDao,Integer> dao = getHelper().getDao();
                                 dao.create(jugadorDao);
+
                             }catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -237,7 +238,9 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
         llblau.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                JugadorDao jugador = new JugadorDao(jblaus.get(position).name,jblaus.get(position).val,"Blau", new byte[0],jblaus.get(position).personalitzada);
                 Intent intent = new Intent(getApplicationContext(),Informacio.class);
+                intent.putExtra("Id",jugador.id);
                 intent.putExtra("Nom",jblaus.get(position).name);
                 intent.putExtra("Valoració",jblaus.get(position).val);
                 intent.putExtra("Foto",jblaus.get(position).foto);
@@ -256,8 +259,10 @@ public class MainActivity extends OrmLiteBaseActivity<JugadorHelper> {
         llvermell.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                JugadorDao jugador = new JugadorDao(jvermells.get(position).name,jvermells.get(position).val,"Vermell",new byte[0],jvermells.get(position).personalitzada);
                 Intent intent = new Intent(getApplicationContext(),Informacio.class);
                 intent.putExtra("Nom",jvermells.get(position).name);
+                intent.putExtra("Id",jugador.id);
                 intent.putExtra("Valoració",jvermells.get(position).val);
                 intent.putExtra("Foto",jvermells.get(position).foto);
                 intent.putExtra("Personalitzada",jvermells.get(position).personalitzada);

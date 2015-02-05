@@ -14,7 +14,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 public class JugadorDao {
     @DatabaseField(generatedId = true)
-    private int id;
+    public int id;
     @DatabaseField
     private String equip;
     @DatabaseField

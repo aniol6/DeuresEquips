@@ -29,6 +29,8 @@ public class Informacio extends OrmLiteBaseActivity<JugadorHelper> {
     private Button infook;
     private Button infocancel;
     private Informacio infoActivity;
+    private int id;
+
 
 
 
@@ -43,7 +45,9 @@ public class Informacio extends OrmLiteBaseActivity<JugadorHelper> {
         infoequip= (TextView) findViewById(R.id.equip);
         infook = (Button) findViewById(R.id.buttonok);
         infocancel = (Button) findViewById(R.id.buttoncancel);
+
         infoActivity = this;
+
 
 
 
@@ -56,6 +60,7 @@ public class Informacio extends OrmLiteBaseActivity<JugadorHelper> {
         infoval.setText(getIntent().getExtras().getString("Valoració"));
         infofoto.setImageBitmap((android.graphics.Bitmap) getIntent().getExtras().get("Foto"));
         infoequip.setText(getIntent().getExtras().getString("Equip"));
+        id= getIntent().getExtras().getInt("Id");
 
         infocancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +86,7 @@ public class Informacio extends OrmLiteBaseActivity<JugadorHelper> {
                 }else{
 
                     JugadorDao jugadorDao = new JugadorDao(infonom.getText().toString(),infoval.getText().toString(),infoequip.getText().toString(),new byte[0],false);
+                    jugadorDao.setId(id);
                     try {
                         Dao<JugadorDao,Integer> dao = getHelper().getDao();
                         dao.update(jugadorDao);
